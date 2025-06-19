@@ -1,8 +1,13 @@
 <?
 define("HIDE_SIDEBAR", true);
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+$APPLICATION->SetTitle("Каталог");
+$APPLICATION->SetPageProperty("title", "Каталог | LKDENTAL");
+$APPLICATION->SetPageProperty("description", "Каталог | LKDENTAL");
+$APPLICATION->SetPageProperty("H1", "Каталог");
 ?>
-<?$APPLICATION->IncludeComponent("bitrix:catalog", "bootstrap_v4", array(
+
+<?$APPLICATION->IncludeComponent("bitrix:catalog", "", array(
 	"IBLOCK_TYPE" => "catalog",
 	"IBLOCK_ID" => "4",
 	"TEMPLATE_THEME" => "site",
