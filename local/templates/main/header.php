@@ -123,7 +123,11 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
                         <div class="col-auto"><a class="header__logo" href="/"><img src="<?=SITE_TEMPLATE_PATH?>/img/header-logo.png" alt="" /></a></div>
                         <div class="col d-none d-lg-block">
                             <div class="header__search">
-                                <form action="#"><input class="header__search__input" type="text" placeholder="Поиск" /></form>
+                            <form action="/search/">
+                        <input class="header__search__input" type="text" placeholder="Поиск" name="q" autocomplete="off">
+                        <!-- <button type="submit" class="btn btn-prim">Найти</button> -->
+                    </form>
+                                <!-- <form action="#"><input class="header__search__input" type="text" placeholder="Поиск" /></form> -->
                             </div>
                         </div>
                         <div class="col-auto d-none d-lg-block">
@@ -138,29 +142,30 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
                             </div>
                         </div>
                         <?$APPLICATION->IncludeComponent(
-                                    "bitrix:sale.basket.basket.line",
-                                    "store_v3_inline",
-                                    Array(
-                                        "HIDE_ON_BASKET_PAGES" => "Y",
-                                        "PATH_TO_AUTHORIZE" => "",
-                                        "PATH_TO_BASKET" => SITE_DIR."personal/cart/",
-                                        "PATH_TO_ORDER" => SITE_DIR."personal/order/make/",
-                                        "PATH_TO_PERSONAL" => SITE_DIR."personal/",
-                                        "PATH_TO_PROFILE" => SITE_DIR."personal/",
-                                        "PATH_TO_REGISTER" => SITE_DIR."login/",
-                                        "POSITION_FIXED" => "Y",
-                                        "POSITION_HORIZONTAL" => "right",
-                                        "POSITION_VERTICAL" => "top",
-                                        "SHOW_AUTHOR" => "N",
-                                        "SHOW_EMPTY_VALUES" => "Y",
-                                        "SHOW_NUM_PRODUCTS" => "Y",
-                                        "SHOW_PERSONAL_LINK" => "N",
-                                        "SHOW_PRODUCTS" => "N",
-                                        "SHOW_REGISTRATION" => "N",
-                                        "SHOW_TOTAL_PRICE" => "N",
-                                        "COMPONENT_TEMPLATE" => "store_v3_inline"
-                                    )
-                                );?>
+	"bitrix:sale.basket.basket.line", 
+	"store_v3_inline", 
+	array(
+		"HIDE_ON_BASKET_PAGES" => "Y",
+		"PATH_TO_AUTHORIZE" => "",
+		"PATH_TO_BASKET" => SITE_DIR."personal/cart/",
+		"PATH_TO_ORDER" => SITE_DIR."personal/order/make/",
+		"PATH_TO_PERSONAL" => SITE_DIR."personal/",
+		"PATH_TO_PROFILE" => SITE_DIR."personal/",
+		"PATH_TO_REGISTER" => SITE_DIR."login/",
+		"POSITION_FIXED" => "Y",
+		"POSITION_HORIZONTAL" => "right",
+		"POSITION_VERTICAL" => "top",
+		"SHOW_AUTHOR" => "N",
+		"SHOW_EMPTY_VALUES" => "Y",
+		"SHOW_NUM_PRODUCTS" => "Y",
+		"SHOW_PERSONAL_LINK" => "N",
+		"SHOW_PRODUCTS" => "N",
+		"SHOW_REGISTRATION" => "N",
+		"SHOW_TOTAL_PRICE" => "Y",
+		"COMPONENT_TEMPLATE" => "store_v3_inline"
+	),
+	false
+);?>
                         <!-- <div class="col-auto d-none d-lg-block"><a class="header__tocard" href="#"><span><svg>
                                         <use xlink:href="<?=SITE_TEMPLATE_PATH?>/img/icons.svg#ic-cart"></use>
                                     </svg></span><i>50</i></a></div> -->

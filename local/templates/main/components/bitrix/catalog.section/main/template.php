@@ -208,9 +208,32 @@ if (!isset($arParams['HIDE_SECTION_DESCRIPTION']) || $arParams['HIDE_SECTION_DES
 		?>
 		<!-- items-container -->
 
+		<section class="block__padd block__overflow">
+                <div class="fullslider__wrap js--fullslider-wrap">
+                    <div class="block__title">
+                        <div class="row flex-nowrap align-items-center">
+                            <div class="col block__overflow">
+                                <h2 class="h2"><?=$arParams["TITLE"]?></h2>
+                            </div>
+                            <div class="col-auto">
+                                <div class="stslider__nav">
+                                    <div class="stslider__nav__btn js--fullslider-prev"><svg>
+                                            <use xlink:href="<?=SITE_TEMPLATE_PATH?>/img/icons.svg#ic-prev"></use>
+                                        </svg></div>
+                                    <div class="stslider__nav__btn js--fullslider-next"><svg>
+                                            <use xlink:href="<?=SITE_TEMPLATE_PATH?>/img/icons.svg#ic-next"></use>
+                                        </svg></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fullslider__offset js--fullslider-offset"></div>
+                    <div class="fullslider">
+                        <div class="fullslider__body">
+                            <div class="fullslider__slider swiper js--fullslider" id="<?=$uniqueId?>">
+                                <div class="swiper-wrapper">
 		
-		
-		<div class="pcatalog__list row">
+		<!-- <div class="pcatalog__list row"> -->
 		<?
 		foreach ($arResult['ITEM_ROWS'] as $rowData)
 		{
@@ -233,7 +256,7 @@ if (!isset($arParams['HIDE_SECTION_DESCRIPTION']) || $arParams['HIDE_SECTION_DES
 										
 										$APPLICATION->IncludeComponent(
 											'bitrix:catalog.item',
-											'',
+											'dop',
 											array(
 												'RESULT' => array(
 													'ITEM' => $item,
@@ -267,9 +290,17 @@ if (!isset($arParams['HIDE_SECTION_DESCRIPTION']) || $arParams['HIDE_SECTION_DES
 
 		unset($generalParams);
 		?>
-		</div>
+		<!-- </div> -->
 		<!-- items-container -->
+		</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 		<?
+		
 	}
 	else
 	{
@@ -284,6 +315,14 @@ if (!isset($arParams['HIDE_SECTION_DESCRIPTION']) || $arParams['HIDE_SECTION_DES
 	}
 	?>
 <!-- </div> -->
+
+
+
+
+	
+
+
+
 <?
 if ($showLazyLoad)
 {
@@ -313,8 +352,6 @@ $signedTemplate = $signer->sign($templateName, 'catalog.section');
 $signedParams = $signer->sign(base64_encode(serialize($arResult['ORIGINAL_PARAMETERS'])), 'catalog.section');
 ?>
 <!-- </div> -->
-
-
 <script>
 	BX.message({
 		BTN_MESSAGE_BASKET_REDIRECT: '<?=GetMessageJS('CT_BCS_CATALOG_BTN_MESSAGE_BASKET_REDIRECT')?>',

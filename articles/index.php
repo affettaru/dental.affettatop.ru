@@ -17,7 +17,7 @@ $APPLICATION->SetPageProperty("H1", "Статьи");
 		"USE_CATEGORIES" => "N",
 		"USE_REVIEW" => "N",
 		"USE_FILTER" => "N",
-		"SORT_BY1" => "TIMESTAMP_X",
+		"SORT_BY1" => "U_DATE_PUB",
 		"SORT_ORDER1" => "DESC",
 		"SORT_BY2" => "SORT",
 		"SORT_ORDER2" => "ASC",
@@ -61,7 +61,7 @@ $APPLICATION->SetPageProperty("H1", "Статьи");
 			1 => "",
 		),
 		"DETAIL_PROPERTY_CODE" => array(
-			0 => "",
+			0 => "U_DATE_PUB",
 			1 => "",
 		),
 		"DETAIL_DISPLAY_TOP_PAGER" => "N",

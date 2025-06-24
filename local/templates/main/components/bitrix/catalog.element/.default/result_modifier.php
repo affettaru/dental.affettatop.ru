@@ -78,3 +78,69 @@ foreach ($arResult["PROPERTIES"]["U_MORE_FOTO"]["VALUE"] as $key => $image) {
     );
     $arResult["PROPERTIES"]["U_MORE_FOTO"]["SMALL"][$key] = $resize["src"];
 }
+
+
+use Bitrix\Highloadblock as HL;
+use Bitrix\Main\Entity;
+foreach ($arResult['DISPLAY_PROPERTIES'] as $k => $arProp) {
+    
+    if($arProp["PROPERTY_TYPE"]=="S"){
+        if(!empty($arProp["USER_TYPE_SETTINGS"])){
+            if(count($arProp["USER_TYPE_SETTINGS"])!=0){
+                $hlblock = HL\HighloadBlockTable::getList(array("filter" => array('TABLE_NAME' => $arProp["USER_TYPE_SETTINGS"]["TABLE_NAME"])))->fetch();
+                $entity = HL\HighloadBlockTable::compileEntity($hlblock);
+                $entity_data_class = $entity->getDataClass();
+            
+                $rsData = $entity_data_class::getList(array(
+                    'filter' => [
+                        'UF_NAME' => $arProp["VALUE"]
+                    ],
+                    'select' => [
+                        'UF_FILE',
+                        'UF_NAME',
+                       
+                    ]
+                ));
+
+                while ($arData = $rsData->Fetch()) {
+                    // echo "<pre>Template arResult: "; print_r($arData); echo "</pre>";
+                //    $arProp["DESCRIPTION"]=$arData["UF_DESCRIPTION"];
+                //    $arProp["FULL_DESCRIPTION"]=$arData["UF_FULL_DESCRIPTION"];
+                    // $arData['PICTURE'] = CFile::GetPath($arData['UF_FILE']);
+                $arResult["DISPLAY_PROPERTIES"][$k]["DOP"] = $arData;
+                }
+            }
+        }
+    }
+}
+foreach ($arResult['PROPERTIES'] as $k => $arProp) {
+    
+    if($arProp["PROPERTY_TYPE"]=="S"){
+        if(!empty($arProp["USER_TYPE_SETTINGS"])){
+            if(count($arProp["USER_TYPE_SETTINGS"])!=0){
+                $hlblock = HL\HighloadBlockTable::getList(array("filter" => array('TABLE_NAME' => $arProp["USER_TYPE_SETTINGS"]["TABLE_NAME"])))->fetch();
+                $entity = HL\HighloadBlockTable::compileEntity($hlblock);
+                $entity_data_class = $entity->getDataClass();
+            
+                $rsData = $entity_data_class::getList(array(
+                    'filter' => [
+                        'UF_NAME' => $arProp["VALUE"]
+                    ],
+                    'select' => [
+                        'UF_FILE',
+                        'UF_NAME',
+                       
+                    ]
+                ));
+
+                while ($arData = $rsData->Fetch()) {
+                    // echo "<pre>Template arResult: "; print_r($arData); echo "</pre>";
+                //    $arProp["DESCRIPTION"]=$arData["UF_DESCRIPTION"];
+                //    $arProp["FULL_DESCRIPTION"]=$arData["UF_FULL_DESCRIPTION"];
+                    // $arData['PICTURE'] = CFile::GetPath($arData['UF_FILE']);
+                $arResult["PROPERTIES"][$k]["DOP"] = $arData;
+                }
+            }
+        }
+    }
+}

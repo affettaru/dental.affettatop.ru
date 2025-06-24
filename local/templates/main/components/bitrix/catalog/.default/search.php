@@ -116,15 +116,7 @@ if ($isFilter)
 <div class="pcatalog__title">
                     <div class="row">
                         <div class="col-12 block__overflow">
-                            <h1 class="h1"><?= $arCurSection["NAME"]?></h1>
-                        </div>
-                        <div class="col-12 d-xl-none"><a class="pcatalog__title__openfilter" href="#js--filter" data-fancybox-filter="data-fancybox-filter"><i><svg>
-                                        <use xlink:href="<?=SITE_TEMPLATE_PATH?>/img/icons.svg#ic-filter"></use>
-                                    </svg></i><span>Фильтры</span></a></div>
-                    </div>
-                </div>
-
-<div class="pcatalog block__overflow">
+						!!!!!!!!!!
 <?
 if ($isVerticalFilter)
 {

@@ -46,7 +46,7 @@ if ($sectionListParams["COUNT_ELEMENTS"] === "Y")
 }?>
 <?
 
-// unset($sectionListParams);
+unset($sectionListParams);
 
 
 if ($isFilter || $isSidebar): ?>
@@ -424,8 +424,9 @@ if ($isFilter || $isSidebar): ?>
 				}
 			}
 		}
-
-		
+		// UF_SEO_IMG
+		// UF_SEO_TEXT
 		?>
+		
 	<!-- </div> -->
 </div>

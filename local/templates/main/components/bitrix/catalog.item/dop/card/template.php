@@ -27,43 +27,17 @@ use \Bitrix\Main\Localization\Loc;
 
  $id = $this->GetEditAreaId($item['ID']);
 
-//  if($item["PREVIEW_PICTURE"]["SRC"] ){
-// 	$file = CFile::ResizeImageGet($item["PREVIEW_PICTURE"], array("width" => $wdth, "height" => $hght));
-	
-//  }else{
-//  $file = CFile::ResizeImageGet($item["DETAIL_PICTURE"], array("width" => $wdth, "height" => $hght));}
+
 
 ?>
 
 
-                                <!-- <div class="gcard">
-                                    <div class="gcard__markers"><span class="sale">Скидка 23%</span><span class="preorder">Под заказ</span>
-								</div>
-								<a class="gcard__img" href="#">
-										<img src="img/catalog/img-catalog-0.jpg" alt="" /></a>
-										<a class="gcard__title" href="#">Набор для клинического отбеливания ZOOM</a>
-                                    <div class="gcard__price"><span class="current">27 000 ₽</span><span class="old">35 000 ₽</span></div>
-                                    <div class="gcard__footer js--card-wrap">
-                                        <div class="gcard__footer__countwrap">
-                                            <div>
-                                                <div class="inputcount__wrap" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" data-bs-custom-class="custom-popover" data-bs-content="На складе всего 7 штук">
-                                                    <div class="inputcount js--inputcount">
-                                                        <div class="inputcount__btn minus js--inputcount-minus"><i><svg>
-                                                                    <use xlink:href="img/icons.svg#ic-minus"></use>
-                                                                </svg></i></div>
-                                                        <div class="inputcount__btn plus js--inputcount-plus"><i><svg>
-                                                                    <use xlink:href="img/icons.svg#ic-plus"></use>
-                                                                </svg></i></div><input class="inputcount__input js--inputcount-input" type="number" name="#" min="1" max="5" value="1" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="gcard__footer__btnwrap"><button class="mbtn mbtn__primary mbtn__small d-block w-100 js--card-btn mbtn__active">В корзину</button></div>
-                                    </div>
-                                </div>
-                            </div> -->
-<div class="catalog__card gcard">
-	<div class="gcard__markers"><?if($price['PERCENT']){?><span class="sale">Скидка <?=$price['PERCENT']?>%</span><?}?><span class="preorder">Под заказ</span></div>
+                           
+
+
+
+<div class="gcard">
+	
 
 	<? if ($itemHasDetailUrl): ?>
 		
@@ -175,38 +149,9 @@ use \Bitrix\Main\Localization\Loc;
 		<? endif; ?>
 	</div> -->
 
-<?
 
-// use Bitrix\Main\Loader; 
-// Loader::includeModule("highloadblock"); 
-// use Bitrix\Highloadblock as HL;  
-// // подключаем модуль highloadblock
-
-// $hlblock = HL\HighloadBlockTable::getList(array("filter" => array('TABLE_NAME' => 'b_hlbd_proizvoditeli')))->fetch();
-// $entity = HL\HighloadBlockTable::compileEntity($hlblock);
-
-// $entityDataClass = $entity->getDataClass(); 
-// $result = $entityDataClass::getList(array("filter" => Array("UF_XML_ID"=>$item["PROPERTIES"]["U_MARKA"]["VALUE"])));
-
-// if($arRow = $result->Fetch())
-// 	{
-// 		$marka_NAME= $arRow["UF_NAME"];
-// 	}
-
-// $hlblock = HL\HighloadBlockTable::getList(array("filter" => array('TABLE_NAME' => 'b_hlbd_proizvoditelid')))->fetch();
-// $entity = HL\HighloadBlockTable::compileEntity($hlblock);
-
-// // echo "<pre>Template arResult: "; print_r($item["PROPERTIES"]); echo "</pre>";
-// $entityDataClass = $entity->getDataClass(); 
-// $result = $entityDataClass::getList(array("filter" => Array("UF_XML_ID"=>$item["PROPERTIES"]["U_MARKA_D"]["VALUE"])));
-
-// if($arRow = $result->Fetch())
-// 	{
-// 		$marka_NAME= $arRow["UF_NAME"];
-// 	}
-	
-
-?>
+                                    
+                                   
 	<!-- <a class="gcard__title" href="#">Набор для клинического отбеливания ZOOM</a>
 	<div class="gcard__price"><span class="current">27 000 ₽</span><span class="old">35 000 ₽</span></div> -->
 
@@ -373,7 +318,7 @@ use \Bitrix\Main\Localization\Loc;
 									<button class="mbtn mbtn__primary mbtn__small d-block w-100 js--card-btn mbtn__active">В корзину</button></div>
 								</div> -->
 								<div class="col-6 product-item-button-container gcard__footer__btnwrap" id="<?=$itemIds['BASKET_ACTIONS']?>">
-									<a class="mbtn__grey2 mbtn__small btn mbtn mbtn__primary d-block w-100 js--card-btn" id="<?=$itemIds['BUY_LINK']?>"
+									<a class="mbtn__grey2 mbtn__small btn mbtn mbtn__primary d-block w-100 js--card-btn " id="<?=$itemIds['BUY_LINK']?>"
 										href="javascript:void(0)" rel="nofollow">
 										<?=($arParams['ADD_TO_BASKET_ACTION'] === 'BUY' ? $arParams['MESS_BTN_BUY'] : $arParams['MESS_BTN_ADD_TO_BASKET'])?>
 									</a>

@@ -81,6 +81,17 @@ $itemIds = array(
 	'TABS_PANEL_ID' => $mainId.'_tabs_panel'
 );
 $obName = $templateData['JS_OBJ'] = 'ob'.preg_replace('/[^a-zA-Z0-9_]/', 'x', $mainId);
+
+
+
+
+
+
+
+$res = CIBlockSection::GetByID($arResult["IBLOCK_SECTION_ID"]);
+if($ar_res = $res->GetNext())
+	$sect_NAME = $ar_res['NAME'];
+
 $name = !empty($arResult['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE'])
 	? $arResult['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE']
 	: $arResult['NAME'];
@@ -90,6 +101,7 @@ $title = !empty($arResult['IPROPERTY_VALUES']['ELEMENT_DETAIL_PICTURE_FILE_TITLE
 $alt = !empty($arResult['IPROPERTY_VALUES']['ELEMENT_DETAIL_PICTURE_FILE_ALT'])
 	? $arResult['IPROPERTY_VALUES']['ELEMENT_DETAIL_PICTURE_FILE_ALT']
 	: $arResult['NAME'];
+	// $name =$sect_NAME." ".$marka_NAME." ".$name;
 
 if ($haveOffers)
 {
@@ -139,30 +151,25 @@ $buyButtonClassName = in_array('BUY', $arParams['ADD_TO_BASKET_ACTION_PRIMARY'])
 $showAddBtn = in_array('ADD', $arParams['ADD_TO_BASKET_ACTION']);
 $showButtonClassName = in_array('ADD', $arParams['ADD_TO_BASKET_ACTION_PRIMARY']) ? 'btn-default' : 'btn-link';
 $showSubscribe = $arParams['PRODUCT_SUBSCRIPTION'] === 'Y' && ($arResult['PRODUCT']['SUBSCRIBE'] === 'Y' || $haveOffers);
+$productType = $arResult['PRODUCT']['TYPE'];
 
 $arParams['MESS_BTN_BUY'] = $arParams['MESS_BTN_BUY'] ?: Loc::getMessage('CT_BCE_CATALOG_BUY');
 $arParams['MESS_BTN_ADD_TO_BASKET'] = $arParams['MESS_BTN_ADD_TO_BASKET'] ?: Loc::getMessage('CT_BCE_CATALOG_ADD');
 
 if ($arResult['MODULES']['catalog'] && $arResult['PRODUCT']['TYPE'] === ProductTable::TYPE_SERVICE)
 {
-	$arParams['~MESS_NOT_AVAILABLE_SERVICE'] ??= '';
 	$arParams['~MESS_NOT_AVAILABLE'] = $arParams['~MESS_NOT_AVAILABLE_SERVICE']
 		?: Loc::getMessage('CT_BCE_CATALOG_NOT_AVAILABLE_SERVICE')
 	;
-
-	$arParams['MESS_NOT_AVAILABLE_SERVICE'] ??= '';
 	$arParams['MESS_NOT_AVAILABLE'] = $arParams['MESS_NOT_AVAILABLE_SERVICE']
 		?: Loc::getMessage('CT_BCE_CATALOG_NOT_AVAILABLE_SERVICE')
 	;
 }
 else
 {
-	$arParams['~MESS_NOT_AVAILABLE'] ??= '';
 	$arParams['~MESS_NOT_AVAILABLE'] = $arParams['~MESS_NOT_AVAILABLE']
 		?: Loc::getMessage('CT_BCE_CATALOG_NOT_AVAILABLE')
 	;
-
-	$arParams['MESS_NOT_AVAILABLE'] ??= '';
 	$arParams['MESS_NOT_AVAILABLE'] = $arParams['MESS_NOT_AVAILABLE']
 		?: Loc::getMessage('CT_BCE_CATALOG_NOT_AVAILABLE')
 	;
@@ -204,21 +211,32 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 	}
 }
 ?>
-<!-- <h1 class="h1"><?=$name?></h1>
-<div class="product bx-catalog-element bx-<?=$arParams['TEMPLATE_THEME']?>" id="<?=$itemIds['ID']?>"
-	itemscope itemtype="http://schema.org/Product"></div> -->
-	<h1 class="h1"><?=$name?></h1>
+<h1 class="h1"><?= $arResult["NAME"]?></h1>
 <div class="product bx-catalog-element bx-<?=$arParams['TEMPLATE_THEME']?>" id="<?=$itemIds['ID']?>"
 	itemscope itemtype="http://schema.org/Product">
 	
-		 <div class="product__body card">
+	<!-- <div class="container-fluid"> -->
+		<!-- <?php
+		if ($arParams['DISPLAY_NAME'] === 'Y')
+		{
+			?>
+			<div class="h1"><?=$name?></div>
+			<?php
+		}
+		?> -->
+
+
+
+
+                <!-- <div class="product">product body -->
+                    <div class="product__body card">
                         <div class="product__pics">
                             <div class="product__images">
                                 <div class="product__images__slider swiper js--primages">
                                     <div class="swiper-wrapper">
 										<?$a=0;
 										foreach ($arResult["PROPERTIES"]["U_MORE_FOTO"]["BIG"] as $img){$a++;?>
-                                        	<div class="product__images__slider__item swiper-slide" >
+                                        	<div class="product__images__slider__item swiper-slide">
 												<a class="product__images__link" href="<?=$img?>" data-fancybox="pr-gallery">
 													<img src="<?=$img?>" alt="<?=$arResult["NAME"]?> арт. <?=$arResult["PROPERTIES"]["U_ARTICLE"]["VALUE"]?>  купить рис. <?=$a?>" title="<?=$arResult["NAME"]?> арт. <?=$arResult["PROPERTIES"]["U_ARTICLE"]["VALUE"]?>  рис. <?=$a?>" />
 												</a>
@@ -261,6 +279,7 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
                                         <div class="product__tabs__item">
                                             <div class="block__text">
 											<?=$arResult["DETAIL_TEXT"]?>
+                                                <!-- <p>Предназначены для проведения хирургических манипуляций в пародонтальной хирургии и имплантологии: для разрезания мягких тканей и шовного материала.</p> -->
                                             </div>
                                         </div>
                                         <div class="product__tabs__item">
@@ -277,64 +296,48 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 											<?}?>
                                               
                                         </div>
-										<?
-										$rs = CIBlockElement::GetList (
-											Array(),
-											Array("IBLOCK_ID" => 9),
-											false,
-											Array ()
-										);
-										while($ar = $rs->GetNext()) {
-											if($ar["NAME"]=="В наличии на складе"){
-												$text1=$ar["PREVIEW_TEXT"];
-											}
-											if($ar["NAME"]=="Как купить"){
-												$text2=$ar["PREVIEW_TEXT"];
-											}
-										}
-										// echo "<pre>Template arResult: "; print_r($rs->Fetch()); echo "</pre>";
-										?>
-                                        <div class="product__tabs__item">
+                                        <!-- <div class="product__tabs__item">
                                             <h2 class="h2">В наличии на складе</h2>
                                             <ul class="product__tabs__list">
-												<?=$text1?>
-                                                <li><span class="product__tabs__list__label">Остаток:</span><span class="product__tabs__list__text"><?=$arResult["CATALOG_QUANTITY"]?></span></li>
+                                                <li><span class="product__tabs__list__label">Склад:</span><span class="product__tabs__list__text">Название склада</span></li>
+                                                <li><span class="product__tabs__list__label">График работы:</span><span class="product__tabs__list__text">Пн-Пт с 9:00 до 20:00, Сб-Вс с 11:00 до 18:00</span></li>
+                                                <li><span class="product__tabs__list__label">Остаток:</span><span class="product__tabs__list__text">7</span></li>
                                             </ul>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                                 <div class="product__tabs__slide__item js--tabs-item" id="tab__1">
                                     <div class="product__tabs__body">
                                         <div class="product__tabs__item">
                                             <div class="block__text">
-											<?=$text2?>
-                                               
+                                                <p>Доставка производится ежедневно с понедельника по пятницу, с 10:00 до 19:00 по московскому времени. Желательное время и день доставки Вы можете согласовать с оператором, когда он свяжется с Вами после оформления заказа. Обычно доставка производится в течение суток с момента заказа.</p>
+                                                <p>Если необходима доставка в иное время, направьте запрос менеджеру, и мы постараемся сделать всё возможное для выполнения Вашего запроса.</p>
+                                                <p>Для того, чтобы узнать подробнее о доставке и оплате, нажмите на кнопку «Перейти».</p>
                                             </div>
-                                            <div class="product__tabs__more"><a class="mbtn mbtn__primary mbtn__big" href="/delivery_and_payment">Перейти</a></div>
+                                            <!-- <div class="product__tabs__more"><a class="mbtn mbtn__primary mbtn__big" href="#">Перейти</a></div> -->
                                         </div>
                                     </div>
                                 </div>
-								
-								<div class="product__tabs__slide__item js--tabs-item" id="tab__2">
-									<div class="product__tabs__body">
-										<div class="product__tabs__item">
-											<?if($arResult["PROPERTIES"]["U_DOCS"]["VALUE"]){?>
-												<ul class="product__tabs__docs">
-													<?foreach ($arResult["PROPERTIES"]["U_DOCS"]["VALUE"] as $docs){?>
-														<?$file=CFile::GetByID($docs)->Fetch();?>
-														<li><a class="mbtn mbtn__bordered mbtn__wicon mbtn__big" href="<?=$file["SRC"]?>" download="filename"><span class="mbtn__wicon__body"><span><?=$file["ORIGINAL_NAME"]?></span><i><svg>
-																		<use xlink:href="<?=SITE_TEMPLATE_PATH?>/img/icons.svg#ic-download"></use>
-																	</svg></i></span></a></li>
-													<?}?>
-													
-												</ul>
-											<?}?>
-										</div>
-									</div>
-								</div>
+                                <div class="product__tabs__slide__item js--tabs-item" id="tab__2">
+                                    <div class="product__tabs__body">
+                                        <div class="product__tabs__item">
+                                            <ul class="product__tabs__docs">
+                                                <li><a class="mbtn mbtn__bordered mbtn__wicon mbtn__big" href="#" download="filename"><span class="mbtn__wicon__body"><span>Декларация продукта</span><i><svg>
+                                                                    <use xlink:href="<?=SITE_TEMPLATE_PATH?>/img/icons.svg#ic-download"></use>
+                                                                </svg></i></span></a></li>
+                                                <li><a class="mbtn mbtn__bordered mbtn__wicon mbtn__big" href="#" download="filename"><span class="mbtn__wicon__body"><span>Инструкция</span><i><svg>
+                                                                    <use xlink:href="<?=SITE_TEMPLATE_PATH?>/img/icons.svg#ic-download"></use>
+                                                                </svg></i></span></a></li>
+                                                <li><a class="mbtn mbtn__bordered mbtn__wicon mbtn__big" href="#" download="filename"><span class="mbtn__wicon__body"><span>Декларация продукта</span><i><svg>
+                                                                    <use xlink:href="<?=SITE_TEMPLATE_PATH?>/img/icons.svg#ic-download"></use>
+                                                                </svg></i></span></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </div><!-- /product body--><!-- product side-->
                     <div class="product__side">
                         <div class="product__info js--productside">
                             <div class="product__wrap1">
@@ -355,19 +358,14 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
                                             </div>
                                         </div>
                                     </div>
-									
-									<?if($arResult["PROPERTIES"]["U_BRAND"]["DOP"]["UF_FILE"]){
-										$file=CFile::GetPath($arResult["PROPERTIES"]["U_BRAND"]["DOP"]["UF_FILE"]);?>
-	
-                                   		<div class="col-auto"><a class="product__brand" href="/catalog/<?=$arResult["SECTION"]["CODE"]?>/filter/u_brand-is-<?=$arResult["PROPERTIES"]["U_BRAND"]["VALUE"]?>/apply/"><img src="<?=$file?>" alt="" /></a></div>
-									<?}?>
+                                    <!-- <div class="col-auto"><a class="product__brand" href="#"><img src="img/product/img-brand-0.png" alt="" /></a></div> -->
                                 </div>
                             </div>
                             <div class="product__wrap1">
                                 <ul class="product__destop">
                                     <li>Код: <?=$arResult["PROPERTIES"]["U_CODE"]["VALUE"]?></li>
                                     <li>Артикул: <?=$arResult["PROPERTIES"]["U_ARTICLE"]["VALUE"]?></li>
-                                    <li>Производитель: <?=$arResult["PROPERTIES"]["U_BRAND"]["DOP"]["UF_NAME"]?></li>
+                                    <li>Производитель: <?=$arResult["PROPERTIES"]["U_BRAND"]["VALUE"]?></li>
                                     <li>Страна: <?=$arResult["PROPERTIES"]["U_CONTRY"]["VALUE"]?></li>
 									
 									<?if($arResult["PROPERTIES"]["U_AVALIABLE"]["VALUE"]=="под заказ"){?>
@@ -395,23 +393,9 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
                             <div class="product__tobuy">
 
 
-                                <div class="card__footer row">
-								<?
-									$basket = \Bitrix\Sale\Basket::loadItemsForFUser(\Bitrix\Sale\Fuser::getId(),\Bitrix\Main\Context::getCurrent()->getSite());
+						
 
-									$basketItems = $basket->getBasketItems();
-
-									$productId =$arResult["ID"]; // ID товара
-									$productExistsInBasket = false;
-
-									foreach ($basketItems as $basketItem) {
-										if ($basketItem->getProductId() == $productId) {
-											$quantity=$basketItem->getQUANTITY();
-											$productExistsInBasket = true;
-											break;
-										}
-									}
-									?>
+                                <!-- <div class="card__footer row">
                                     <div class="col-12 col-md-6 col-lg-auto ">
                                         <div class="inputcount__wrap" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" data-bs-custom-class="custom-popover" data-bs-content="На складе всего <?=$arResult["CATALOG_QUANTITY"]?> штук">
                                             <div class="inputcount inputcount__big js--inputcount">
@@ -422,267 +406,106 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
                                                             <use xlink:href="<?=SITE_TEMPLATE_PATH?>/img/icons.svg#ic-plus"></use>
                                                         </svg></i></div>
 														
-														<input class="inputcount__input js--inputcount-input" id="<?=$itemIds['QUANTITY_ID']?>" type="number" min="0" max="<?=$arResult["CATALOG_QUANTITY"]?>" value="<?if($quantity){echo($quantity);}else{echo($price['MIN_QUANTITY']);}?>">
+														<input class="inputcount__input js--inputcount-input" id="<?=$itemIds['QUANTITY_ID']?>" type="number" min="0" max="<?=$arResult["CATALOG_QUANTITY"]?>" value="<?=$price['MIN_QUANTITY']?>">
 														
                                             </div>
                                         </div>
                                     </div>
-									
-									<div id="<?=$itemIds['BASKET_ACTIONS_ID']?>" class="col-12 col-md-6 col-lg"><button id="<?=$itemIds['ADD_BASKET_LINK']?>" class="mbtn <?if($productExistsInBasket){?>mbtn__active<?}?> mbtn__big mbtn__primary mbtn__middle d-block w-100" type="button"><?if($productExistsInBasket){?>В корзине<?}else{?>В корзину<?}?></button></div>
+									<div id="<?=$itemIds['BASKET_ACTIONS_ID']?>" class="col-12 col-md-6 col-lg"><button id="<?=$itemIds['ADD_BASKET_LINK']?>" class="mbtn  mbtn__big mbtn__primary mbtn__middle d-block w-100" type="button">В корзину</button></div>
                                     
-                                </div>
-
-								
-																
-
+                                </div> -->
                             </div>
-                           
+                            <!-- <div class="product__tobuy">
+                                <div class="row">
+                                    <div class="col-12 col-md-6 col-lg-auto">
+                                        <div class="inputcount__wrap" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" data-bs-custom-class="custom-popover" data-bs-content="На складе всего 7 штук">
+                                            <div class="inputcount inputcount__big js--inputcount">
+                                                <div class="inputcount__btn minus js--inputcount-minus"><i><svg>
+                                                            <use xlink:href="img/icons.svg#ic-minus"></use>
+                                                        </svg></i></div>
+                                                <div class="inputcount__btn plus js--inputcount-plus"><i><svg>
+                                                            <use xlink:href="img/icons.svg#ic-plus"></use>
+                                                        </svg></i></div><input class="inputcount__input js--inputcount-input" type="number" name="#" min="0" max="5" value="3" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-lg"><button class="mbtn mbtn__primary mbtn__middle mbtn__active d-block w-100" type="button">В корзине</button></div>
+                                </div>
+                            </div> -->
 
-		<div class="row">
-			<div class="col-md-6 col-sm-12">
-				<div class="product-item-detail-slider-container" id="<?=$itemIds['BIG_SLIDER_ID']?>">
-					<span class="product-item-detail-slider-close" data-entity="close-popup"></span>
+
+							<div class="col-12 col-lg-6 col-xxl-7">
+				<div class="card__des">
+				
+					<div class="card__article">Артикул: <?=$arResult["PROPERTIES"]["U_CODE"]["VALUE"]?></div>
+					<div class="product-item-detail-slider-container"  id="<?=$itemIds['BIG_SLIDER_ID']?>">
 					
-					
-						<div class="product-item-detail-slider-images-container" style="display:none" data-entity="images-container">
-							
+					<div class="product-item-detail-slider-images-container" data-entity="images-container"></div>
+
+
+					<div class="card__prices row align-items-center product-item-detail-info-container">
+						<div class="col-auto" >
+							<div class="card__prices__now product-item-detail-price-current" id="<?=$itemIds['PRICE_ID']?>"><?echo($price['PRINT_RATIO_PRICE']);?></div>
 						</div>
+						<?if($price["RATIO_BASE_PRICE"]>$price["RATIO_PRICE"]){?>
+							<div class="col-auto">
+								<div class="card__prices__old"><?=$price["PRINT_RATIO_BASE_PRICE"]?></div>
+							</div>
+						<?}?>
 					</div>
-					
+					<div class="card__storage">На складе <?=$arResult["CATALOG_QUANTITY"]?> шт.</div>
+
+					<div class="card__footer row">
+						
+						<div class="col-12 col-lg-5">
+							<div class="inputcount js--inputcount">
+								<div class="inputcount__btn inputcount__btn__left js--inputcount-minus" id="<?=$itemIds['QUANTITY_DOWN_ID']?>">
+									<svg>
+										<use xlink:href="<?=SITE_TEMPLATE_PATH?>/img/icons.svg#ic-minus"></use>
+									</svg>
+								</div>
+								<div class="inputcount__btn inputcount__btn__right js--inputcount-plus" id="<?=$itemIds['QUANTITY_UP_ID']?>">
+									<svg>
+										<use xlink:href="<?=SITE_TEMPLATE_PATH?>/img/icons.svg#ic-plus"></use>
+									</svg>
+								</div>
+								<input class="inputcount__input js--inputcount-input" id="<?=$itemIds['QUANTITY_ID']?>" type="number" value="<?=$price['MIN_QUANTITY']?>">
+							</div>
+						</div>
+						<div id="<?=$itemIds['BASKET_ACTIONS_ID']?>" class="col-12 col-lg-7"><button id="<?=$itemIds['ADD_BASKET_LINK']?>" class="mbtn mbtn__big mbtn__primary d-block w-100" type="button">В корзину</button></div>
+					</div>
+
 				</div>
-			</div>
+
+
+				
+	
+				<!-- </div> -->
+			</div>	
+
 			
 		</div>
-		
-		
-		
-		
-	</div>
-	
+
+
+                        </div>
+                    </div><!-- /product side-->
+                </div>
+
+
+
+
 
 	<meta itemprop="name" content="<?=$name?>" />
 	<meta itemprop="category" content="<?=$arResult['CATEGORY_PATH']?>" />
-	<?php
-	if ($haveOffers)
-	{
-		foreach ($arResult['JS_OFFERS'] as $offer)
-		{
-			$currentOffersList = array();
 
-			if (!empty($offer['TREE']) && is_array($offer['TREE']))
-			{
-				foreach ($offer['TREE'] as $propName => $skuId)
-				{
-					$propId = (int)mb_substr($propName, 5);
-
-					foreach ($skuProps as $prop)
-					{
-						if ($prop['ID'] == $propId)
-						{
-							foreach ($prop['VALUES'] as $propId => $propValue)
-							{
-								if ($propId == $skuId)
-								{
-									$currentOffersList[] = $propValue['NAME'];
-									break;
-								}
-							}
-						}
-					}
-				}
-			}
-
-			$offerPrice = $offer['ITEM_PRICES'][$offer['ITEM_PRICE_SELECTED']];
-			?>
-			<span itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-				<meta itemprop="sku" content="<?=htmlspecialcharsbx(implode('/', $currentOffersList))?>" />
-				<meta itemprop="price" content="<?=$offerPrice['RATIO_PRICE']?>" />
-				<meta itemprop="priceCurrency" content="<?=$offerPrice['CURRENCY']?>" />
-				<link itemprop="availability" href="http://schema.org/<?=($offer['CAN_BUY'] ? 'InStock' : 'OutOfStock')?>" />
-			</span>
-			<?php
-		}
-
-		unset($offerPrice, $currentOffersList);
-	}
-	else
-	{
-		?>
 		<span itemprop="offers" itemscope itemtype="http://schema.org/Offer">
 			<meta itemprop="price" content="<?=$price['RATIO_PRICE']?>" />
 			<meta itemprop="priceCurrency" content="<?=$price['CURRENCY']?>" />
 			<link itemprop="availability" href="http://schema.org/<?=($actualItem['CAN_BUY'] ? 'InStock' : 'OutOfStock')?>" />
 		</span>
-		<?php
-	}
-	?>
-</div>
+<!-- </div> -->
 <?php
-if ($haveOffers)
-{
-	$offerIds = array();
-	$offerCodes = array();
-
-	$useRatio = $arParams['USE_RATIO_IN_RANGES'] === 'Y';
-
-	foreach ($arResult['JS_OFFERS'] as $ind => &$jsOffer)
-	{
-		$offerIds[] = (int)$jsOffer['ID'];
-		$offerCodes[] = $jsOffer['CODE'];
-
-		$fullOffer = $arResult['OFFERS'][$ind];
-		$measureName = $fullOffer['ITEM_MEASURE']['TITLE'];
-
-		$strAllProps = '';
-		$strMainProps = '';
-		$strPriceRangesRatio = '';
-		$strPriceRanges = '';
-
-		if ($arResult['SHOW_OFFERS_PROPS'])
-		{
-			if (!empty($jsOffer['DISPLAY_PROPERTIES']))
-			{
-				foreach ($jsOffer['DISPLAY_PROPERTIES'] as $property)
-				{
-					$current = '<dt>'.$property['NAME'].'</dt><dd>'.(
-						is_array($property['VALUE'])
-							? implode(' / ', $property['VALUE'])
-							: $property['VALUE']
-						).'</dd>';
-					$strAllProps .= $current;
-
-					if (isset($arParams['MAIN_BLOCK_OFFERS_PROPERTY_CODE'][$property['CODE']]))
-					{
-						$strMainProps .= $current;
-					}
-				}
-
-				unset($current);
-			}
-		}
-
-		if ($arParams['USE_PRICE_COUNT'] && count($jsOffer['ITEM_QUANTITY_RANGES']) > 1)
-		{
-			$strPriceRangesRatio = '('.Loc::getMessage(
-					'CT_BCE_CATALOG_RATIO_PRICE',
-					array('#RATIO#' => ($useRatio
-							? $fullOffer['ITEM_MEASURE_RATIOS'][$fullOffer['ITEM_MEASURE_RATIO_SELECTED']]['RATIO']
-							: '1'
-						).' '.$measureName)
-				).')';
-
-			foreach ($jsOffer['ITEM_QUANTITY_RANGES'] as $range)
-			{
-				if ($range['HASH'] !== 'ZERO-INF')
-				{
-					$itemPrice = false;
-
-					foreach ($jsOffer['ITEM_PRICES'] as $itemPrice)
-					{
-						if ($itemPrice['QUANTITY_HASH'] === $range['HASH'])
-						{
-							break;
-						}
-					}
-
-					if ($itemPrice)
-					{
-						$strPriceRanges .= '<dt>'.Loc::getMessage(
-								'CT_BCE_CATALOG_RANGE_FROM',
-								array('#FROM#' => $range['SORT_FROM'].' '.$measureName)
-							).' ';
-
-						if (is_infinite($range['SORT_TO']))
-						{
-							$strPriceRanges .= Loc::getMessage('CT_BCE_CATALOG_RANGE_MORE');
-						}
-						else
-						{
-							$strPriceRanges .= Loc::getMessage(
-								'CT_BCE_CATALOG_RANGE_TO',
-								array('#TO#' => $range['SORT_TO'].' '.$measureName)
-							);
-						}
-
-						$strPriceRanges .= '</dt><dd>'.($useRatio ? $itemPrice['PRINT_RATIO_PRICE'] : $itemPrice['PRINT_PRICE']).'</dd>';
-					}
-				}
-			}
-
-			unset($range, $itemPrice);
-		}
-
-		$jsOffer['DISPLAY_PROPERTIES'] = $strAllProps;
-		$jsOffer['DISPLAY_PROPERTIES_MAIN_BLOCK'] = $strMainProps;
-		$jsOffer['PRICE_RANGES_RATIO_HTML'] = $strPriceRangesRatio;
-		$jsOffer['PRICE_RANGES_HTML'] = $strPriceRanges;
-	}
-
-	$templateData['OFFER_IDS'] = $offerIds;
-	$templateData['OFFER_CODES'] = $offerCodes;
-	unset($jsOffer, $strAllProps, $strMainProps, $strPriceRanges, $strPriceRangesRatio, $useRatio);
-
-	$jsParams = array(
-		'CONFIG' => array(
-			'USE_CATALOG' => $arResult['CATALOG'],
-			'SHOW_QUANTITY' => $arParams['USE_PRODUCT_QUANTITY'],
-			'SHOW_PRICE' => true,
-			'SHOW_DISCOUNT_PERCENT' => $arParams['SHOW_DISCOUNT_PERCENT'] === 'Y',
-			'SHOW_OLD_PRICE' => $arParams['SHOW_OLD_PRICE'] === 'Y',
-			'USE_PRICE_COUNT' => $arParams['USE_PRICE_COUNT'],
-			'DISPLAY_COMPARE' => $arParams['DISPLAY_COMPARE'],
-			'SHOW_SKU_PROPS' => $arResult['SHOW_OFFERS_PROPS'],
-			'OFFER_GROUP' => $arResult['OFFER_GROUP'],
-			'MAIN_PICTURE_MODE' => $arParams['DETAIL_PICTURE_MODE'],
-			'ADD_TO_BASKET_ACTION' => $arParams['ADD_TO_BASKET_ACTION'],
-			'SHOW_CLOSE_POPUP' => $arParams['SHOW_CLOSE_POPUP'] === 'Y',
-			'SHOW_MAX_QUANTITY' => $arParams['SHOW_MAX_QUANTITY'],
-			'RELATIVE_QUANTITY_FACTOR' => $arParams['RELATIVE_QUANTITY_FACTOR'],
-			'TEMPLATE_THEME' => $arParams['TEMPLATE_THEME'],
-			'USE_STICKERS' => true,
-			'USE_SUBSCRIBE' => $showSubscribe,
-			'SHOW_SLIDER' => $arParams['SHOW_SLIDER'],
-			'SLIDER_INTERVAL' => $arParams['SLIDER_INTERVAL'],
-			'ALT' => $alt,
-			'TITLE' => $title,
-			'MAGNIFIER_ZOOM_PERCENT' => 200,
-			'USE_ENHANCED_ECOMMERCE' => $arParams['USE_ENHANCED_ECOMMERCE'],
-			'DATA_LAYER_NAME' => $arParams['DATA_LAYER_NAME'],
-			'BRAND_PROPERTY' => !empty($arResult['DISPLAY_PROPERTIES'][$arParams['BRAND_PROPERTY']])
-				? $arResult['DISPLAY_PROPERTIES'][$arParams['BRAND_PROPERTY']]['DISPLAY_VALUE']
-				: null,
-			'SHOW_SKU_DESCRIPTION' => $arParams['SHOW_SKU_DESCRIPTION'],
-			'DISPLAY_PREVIEW_TEXT_MODE' => $arParams['DISPLAY_PREVIEW_TEXT_MODE']
-		),
-		'PRODUCT_TYPE' => $arResult['PRODUCT']['TYPE'],
-		'VISUAL' => $itemIds,
-		'DEFAULT_PICTURE' => array(
-			'PREVIEW_PICTURE' => $arResult['DEFAULT_PICTURE'],
-			'DETAIL_PICTURE' => $arResult['DEFAULT_PICTURE']
-		),
-		'PRODUCT' => array(
-			'ID' => $arResult['ID'],
-			'ACTIVE' => $arResult['ACTIVE'],
-			'NAME' => $arResult['~NAME'],
-			'CATEGORY' => $arResult['CATEGORY_PATH'],
-			'DETAIL_TEXT' => $arResult['DETAIL_TEXT'],
-			'DETAIL_TEXT_TYPE' => $arResult['DETAIL_TEXT_TYPE'],
-			'PREVIEW_TEXT' => $arResult['PREVIEW_TEXT'],
-			'PREVIEW_TEXT_TYPE' => $arResult['PREVIEW_TEXT_TYPE']
-		),
-		'BASKET' => array(
-			'QUANTITY' => $arParams['PRODUCT_QUANTITY_VARIABLE'],
-			'BASKET_URL' => $arParams['BASKET_URL'],
-			'SKU_PROPS' => $arResult['OFFERS_PROP_CODES'],
-			'ADD_URL_TEMPLATE' => $arResult['~ADD_URL_TEMPLATE'],
-			'BUY_URL_TEMPLATE' => $arResult['~BUY_URL_TEMPLATE']
-		),
-		'OFFERS' => $arResult['JS_OFFERS'],
-		'OFFER_SELECTED' => $arResult['OFFERS_SELECTED'],
-		'TREE_PROPS' => $skuProps
-	);
-}
-else
+if (!$haveOffers)
 {
 	$emptyProductProperties = empty($arResult['PRODUCT_PROPERTIES']);
 	if ($arParams['ADD_PROPERTIES_TO_BASKET'] === 'Y' && !$emptyProductProperties)
