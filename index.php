@@ -1,8 +1,8 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Главная");
-$APPLICATION->SetPageProperty("title", "Главная | LKDENTAL");
-$APPLICATION->SetPageProperty("description", "Главная| LKDENTAL");
+$APPLICATION->SetPageProperty("title", "Интернет магазин стоматологических инструментов и материалов | LKDENTAL");
+$APPLICATION->SetPageProperty("description", "LKDENTAL - интернет магазин стоматологических инструментов и материалов");
 $APPLICATION->SetPageProperty("H1", "Главная");
 ?>
  
@@ -12,26 +12,11 @@ $APPLICATION->SetPageProperty("H1", "Главная");
                     <div class="col-12 col-lg-8 block__overflow">
                         <div class="welcome__slider swiper js--welcome">
                             <div class="swiper-wrapper"><!-- el-->
-                           <?
-                           
-				$rs = CIBlockElement::GetList (
-					Array(),
-					Array("IBLOCK_ID" => 13),
-					false,
-					Array (), array("PROPERTY_U_BAN")
-				);
-				unset($elN);
-                
-				while($ar = $rs->GetNext()) {
-					
-					$elN[]=$ar;
-				}?>
-              
-						<?  foreach ($elN as $DELIVERY){
-							  unset($elD);
+                          
+						<?  
 							$rsD = CIBlockElement::GetList (
 								Array(),
-								Array("IBLOCK_ID" => 14,"ID"=>$DELIVERY["PROPERTY_U_BAN_VALUE"]),
+								Array("IBLOCK_ID" => 14, "ACTIVE"=>"Y"),
 								false,
 								Array (), array("NAME","PREVIEW_TEXT","PROPERTY_U_LINK","PROPERTY_U_LINK_TEXT","PROPERTY_U_F1_TEXT","PROPERTY_U_F1","PROPERTY_U_F2_TEXT","PROPERTY_U_F2","PREVIEW_PICTURE")
 							);
@@ -84,7 +69,8 @@ $APPLICATION->SetPageProperty("H1", "Главная");
                                         </div>
                                     </div>
                                 </div>
-                                <?}}?>
+                                <?}
+							?>
                             </div>
                             <div class="welcome__slider__nav">
                                 <div class="welcome__slider__nav__btn prev js--welcome-prev"><span><svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -130,7 +116,7 @@ $APPLICATION->SetPageProperty("H1", "Главная");
                     <?unset($el);
 								$rs = CIBlockElement::GetList (
 									Array(),
-									Array("IBLOCK_ID" => 13),
+									Array("IBLOCK_ID" => 13, "ACTIVE"=>"Y"),
 									false,
 									Array (), array("PROPERTY_U_BL1_TEXT","PROPERTY_U_BL1_IMG","PROPERTY_U_BL2_IMG","PROPERTY_U_BL2_LINK")
 								);
@@ -146,12 +132,13 @@ $APPLICATION->SetPageProperty("H1", "Главная");
         </section>
         <section class="block__padd block__overflow">
         <div class="container">
+			 <!-- <div class="container"> -->
 <?
 // $GLOBALS['arrFilter'] = array("!ID"=>$arParams["ELEMENT_ID"]);
 $APPLICATION->IncludeComponent(
 	"bitrix:catalog.section", 
 	"main", 
-	array(
+	[
 		"IBLOCK_TYPE" => "catalog",
 		"IBLOCK_ID" => "4",
 		"COUNT_ELEMENTS" => "20",
@@ -159,36 +146,36 @@ $APPLICATION->IncludeComponent(
 		"CACHE_TYPE" => "A",
 		"SHOW_ALL_WO_SECTION" => "Y",
 		"CACHE_TIME" => "10000",
-		"COMPONENT_TEMPLATE" => "news",
+		"COMPONENT_TEMPLATE" => "main",
 		"SECTION_ID" => "",
 		"SECTION_CODE" => "",
-		"SECTION_USER_FIELDS" => array(
+		"SECTION_USER_FIELDS" => [
 			0 => "",
 			1 => "",
-		),
+		],
 		"FILTER_NAME" => "arrFilter",
 		"INCLUDE_SUBSECTIONS" => "Y",
 		"CUSTOM_FILTER" => "{\"CLASS_ID\":\"CondGroup\",\"DATA\":{\"All\":\"AND\",\"True\":\"True\"},\"CHILDREN\":[]}",
-		"HIDE_NOT_AVAILABLE" => "N",
-		"HIDE_NOT_AVAILABLE_OFFERS" => "N",
+		"HIDE_NOT_AVAILABLE" => "Y",
+		"HIDE_NOT_AVAILABLE_OFFERS" => "Y",
 		"ELEMENT_SORT_FIELD" => "created_date",
 		"ELEMENT_SORT_ORDER" => "desc",
 		"ELEMENT_SORT_FIELD2" => "id",
 		"ELEMENT_SORT_ORDER2" => "desc",
-		"PAGE_ELEMENT_COUNT" => "10",
+		"PAGE_ELEMENT_COUNT" => "8",
 		"LINE_ELEMENT_COUNT" => "3",
-		"PROPERTY_CODE_MOBILE" => array(
-		),
+		"PROPERTY_CODE_MOBILE" => [
+		],
 		"OFFERS_LIMIT" => "10",
 		"BACKGROUND_IMAGE" => "-",
 		"TEMPLATE_THEME" => "blue",
-		"PRODUCT_ROW_VARIANTS" => "[{'VARIANT':'0','BIG_DATA':false},{'VARIANT':'0','BIG_DATA':false},{'VARIANT':'0','BIG_DATA':false},{'VARIANT':'0','BIG_DATA':false},{'VARIANT':'0','BIG_DATA':false},{'VARIANT':'0','BIG_DATA':false},{'VARIANT':'0','BIG_DATA':false},{'VARIANT':'0','BIG_DATA':false},{'VARIANT':'0','BIG_DATA':false},{'VARIANT':'0','BIG_DATA':false}]",
+		"PRODUCT_ROW_VARIANTS" => "[{'VARIANT':'3','BIG_DATA':false},{'VARIANT':'3','BIG_DATA':false}]",
 		"ENLARGE_PRODUCT" => "STRICT",
 		"PRODUCT_BLOCKS_ORDER" => "price,props,sku,quantityLimit,quantity,buttons",
 		"SHOW_SLIDER" => "Y",
 		"ADD_PICT_PROP" => "-",
-		"LABEL_PROP" => array(
-		),
+		"LABEL_PROP" => [
+		],
 		"PRODUCT_SUBSCRIPTION" => "Y",
 		"SHOW_DISCOUNT_PERCENT" => "N",
 		"SHOW_OLD_PRICE" => "N",
@@ -223,14 +210,14 @@ $APPLICATION->IncludeComponent(
 		"CACHE_FILTER" => "N",
 		"ACTION_VARIABLE" => "action",
 		"PRODUCT_ID_VARIABLE" => "id",
-		"PRICE_CODE" => array(
+		"PRICE_CODE" => [
 			0 => "BASE",
-		),
+		],
 		"USE_PRICE_COUNT" => "N",
 		"SHOW_PRICE_COUNT" => "1",
 		"PRICE_VAT_INCLUDE" => "Y",
 		"CONVERT_CURRENCY" => "N",
-		"BASKET_URL" => "/personal/basket.php",
+		"BASKET_URL" => "/personal/cart/",
 		"USE_PRODUCT_QUANTITY" => "N",
 		"PRODUCT_QUANTITY_VARIABLE" => "quantity",
 		"ADD_PROPERTIES_TO_BASKET" => "Y",
@@ -260,8 +247,8 @@ $APPLICATION->IncludeComponent(
 		"SLIDER_PROGRESS" => "N",
 		"SEF_RULE" => "",
 		"SECTION_CODE_PATH" => "",
-        "TITLE" => "Скидки",
-	),
+		"TITLE" => "Скидки"
+	],
 	false
 );?>
 </div>
@@ -283,7 +270,7 @@ $APPLICATION->IncludeComponent(
 $APPLICATION->IncludeComponent(
 	"bitrix:catalog.section", 
 	"main", 
-	array(
+	[
 		"IBLOCK_TYPE" => "catalog",
 		"IBLOCK_ID" => "4",
 		"COUNT_ELEMENTS" => "20",
@@ -294,14 +281,14 @@ $APPLICATION->IncludeComponent(
 		"COMPONENT_TEMPLATE" => "main",
 		"SECTION_ID" => "",
 		"SECTION_CODE" => "",
-		"SECTION_USER_FIELDS" => array(
+		"SECTION_USER_FIELDS" => [
 			0 => "",
 			1 => "",
-		),
+		],
 		"FILTER_NAME" => "arrFilter",
 		"INCLUDE_SUBSECTIONS" => "Y",
 		"CUSTOM_FILTER" => "{\"CLASS_ID\":\"CondGroup\",\"DATA\":{\"All\":\"AND\",\"True\":\"True\"},\"CHILDREN\":[]}",
-		"HIDE_NOT_AVAILABLE" => "N",
+		"HIDE_NOT_AVAILABLE" => "Y",
 		"HIDE_NOT_AVAILABLE_OFFERS" => "N",
 		"ELEMENT_SORT_FIELD" => "shows",
 		"ELEMENT_SORT_ORDER" => "desc",
@@ -309,7 +296,8 @@ $APPLICATION->IncludeComponent(
 		"ELEMENT_SORT_ORDER2" => "desc",
 		"PAGE_ELEMENT_COUNT" => "10",
 		"LINE_ELEMENT_COUNT" => "3",
-		"PROPERTY_CODE_MOBILE" => "",
+		"PROPERTY_CODE_MOBILE" => [
+		],
 		"OFFERS_LIMIT" => "10",
 		"BACKGROUND_IMAGE" => "-",
 		"TEMPLATE_THEME" => "blue",
@@ -318,8 +306,8 @@ $APPLICATION->IncludeComponent(
 		"PRODUCT_BLOCKS_ORDER" => "price,props,sku,quantityLimit,quantity,buttons",
 		"SHOW_SLIDER" => "Y",
 		"ADD_PICT_PROP" => "-",
-		"LABEL_PROP" => array(
-		),
+		"LABEL_PROP" => [
+		],
 		"PRODUCT_SUBSCRIPTION" => "Y",
 		"SHOW_DISCOUNT_PERCENT" => "N",
 		"SHOW_OLD_PRICE" => "N",
@@ -354,14 +342,14 @@ $APPLICATION->IncludeComponent(
 		"CACHE_FILTER" => "N",
 		"ACTION_VARIABLE" => "action",
 		"PRODUCT_ID_VARIABLE" => "id",
-		"PRICE_CODE" => array(
+		"PRICE_CODE" => [
 			0 => "BASE",
-		),
+		],
 		"USE_PRICE_COUNT" => "N",
 		"SHOW_PRICE_COUNT" => "1",
 		"PRICE_VAT_INCLUDE" => "Y",
 		"CONVERT_CURRENCY" => "N",
-		"BASKET_URL" => "/personal/basket.php",
+		"BASKET_URL" => "/personal/cart/",
 		"USE_PRODUCT_QUANTITY" => "N",
 		"PRODUCT_QUANTITY_VARIABLE" => "quantity",
 		"ADD_PROPERTIES_TO_BASKET" => "Y",
@@ -392,7 +380,7 @@ $APPLICATION->IncludeComponent(
 		"SEF_RULE" => "",
 		"SECTION_CODE_PATH" => "",
 		"TITLE" => "Популярное"
-	),
+	],
 	false
 );?>
 </div>
@@ -404,7 +392,7 @@ $APPLICATION->IncludeComponent(
 $APPLICATION->IncludeComponent(
 	"bitrix:catalog.section", 
 	"main", 
-	array(
+	[
 		"IBLOCK_TYPE" => "catalog",
 		"IBLOCK_ID" => "4",
 		"COUNT_ELEMENTS" => "20",
@@ -412,17 +400,17 @@ $APPLICATION->IncludeComponent(
 		"CACHE_TYPE" => "A",
 		"SHOW_ALL_WO_SECTION" => "Y",
 		"CACHE_TIME" => "10000",
-		"COMPONENT_TEMPLATE" => "news",
+		"COMPONENT_TEMPLATE" => "main",
 		"SECTION_ID" => "",
 		"SECTION_CODE" => "",
-		"SECTION_USER_FIELDS" => array(
+		"SECTION_USER_FIELDS" => [
 			0 => "",
 			1 => "",
-		),
+		],
 		"FILTER_NAME" => "arrFilter",
 		"INCLUDE_SUBSECTIONS" => "Y",
 		"CUSTOM_FILTER" => "{\"CLASS_ID\":\"CondGroup\",\"DATA\":{\"All\":\"AND\",\"True\":\"True\"},\"CHILDREN\":[]}",
-		"HIDE_NOT_AVAILABLE" => "N",
+		"HIDE_NOT_AVAILABLE" => "Y",
 		"HIDE_NOT_AVAILABLE_OFFERS" => "N",
 		"ELEMENT_SORT_FIELD" => "created_date",
 		"ELEMENT_SORT_ORDER" => "desc",
@@ -430,8 +418,8 @@ $APPLICATION->IncludeComponent(
 		"ELEMENT_SORT_ORDER2" => "desc",
 		"PAGE_ELEMENT_COUNT" => "10",
 		"LINE_ELEMENT_COUNT" => "3",
-		"PROPERTY_CODE_MOBILE" => array(
-		),
+		"PROPERTY_CODE_MOBILE" => [
+		],
 		"OFFERS_LIMIT" => "10",
 		"BACKGROUND_IMAGE" => "-",
 		"TEMPLATE_THEME" => "blue",
@@ -440,8 +428,8 @@ $APPLICATION->IncludeComponent(
 		"PRODUCT_BLOCKS_ORDER" => "price,props,sku,quantityLimit,quantity,buttons",
 		"SHOW_SLIDER" => "Y",
 		"ADD_PICT_PROP" => "-",
-		"LABEL_PROP" => array(
-		),
+		"LABEL_PROP" => [
+		],
 		"PRODUCT_SUBSCRIPTION" => "Y",
 		"SHOW_DISCOUNT_PERCENT" => "N",
 		"SHOW_OLD_PRICE" => "N",
@@ -476,14 +464,14 @@ $APPLICATION->IncludeComponent(
 		"CACHE_FILTER" => "N",
 		"ACTION_VARIABLE" => "action",
 		"PRODUCT_ID_VARIABLE" => "id",
-		"PRICE_CODE" => array(
+		"PRICE_CODE" => [
 			0 => "BASE",
-		),
+		],
 		"USE_PRICE_COUNT" => "N",
 		"SHOW_PRICE_COUNT" => "1",
 		"PRICE_VAT_INCLUDE" => "Y",
 		"CONVERT_CURRENCY" => "N",
-		"BASKET_URL" => "/personal/basket.php",
+		"BASKET_URL" => "/personal/cart/",
 		"USE_PRODUCT_QUANTITY" => "N",
 		"PRODUCT_QUANTITY_VARIABLE" => "quantity",
 		"ADD_PROPERTIES_TO_BASKET" => "Y",
@@ -513,8 +501,8 @@ $APPLICATION->IncludeComponent(
 		"SLIDER_PROGRESS" => "N",
 		"SEF_RULE" => "",
 		"SECTION_CODE_PATH" => "",
-        "TITLE" => "Новинки",
-	),
+		"TITLE" => "Новинки"
+	],
 	false
 );?>
 </div>

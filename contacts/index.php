@@ -42,6 +42,7 @@ $APPLICATION->SetPageProperty("H1", "Контакты");
                             </ul>
                         </div>
                     </div>
+             
                     <div class="col-12 col-lg-8 block__overflow">
                         <div class="contacts__map">
                             <div class="contacts__map__body" id="js--map"  data-koord="<?=$GLOBALS["SETTINGS"]["COORDINATES"]?>" data-adress="<?=$GLOBALS["SETTINGS"]["ADRESS_COORD"]?>" data-name="<?=$GLOBALS["SETTINGS"]["NAME_COORD"]?>"></div>
@@ -51,10 +52,11 @@ $APPLICATION->SetPageProperty("H1", "Контакты");
             </div>
         </section>
         <?php
-	    global $APPLICATION;
+	    // global $APPLICATION;
 	
-	    use Bitrix\Main\Page\Asset;
-        Asset::getInstance()->addString('<script src="https://api-maps.yandex.ru/2.1/?apikey=c0dd80e9-68b9-441a-8aa7-2aab17cedef9&amp;lang=ru_RU"></script>');?>
+	    // use Bitrix\Main\Page\Asset;
+        //   Asset::getInstance()->addString('<script src="https://api-maps.yandex.ru/v3/?apikey=c0dd80e9-68b9-441a-8aa7-2=ru_RU" type="text/javascript"></script>');
+        // Asset::getInstance()->addString('<script src="https://api-maps.yandex.ru/2.1/?apikey=c0dd80e9-68b9-441a-8aa7-2aab17cedef9&amp;lang=ru_RU"></script>');?>
         
 
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

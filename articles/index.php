@@ -7,11 +7,11 @@ $APPLICATION->SetPageProperty("H1", "Статьи");
 ?><?$APPLICATION->IncludeComponent(
 	"bitrix:news", 
 	"articles", 
-	array(
+	[
 		"IBLOCK_TYPE" => "articals",
 		"IBLOCK_ID" => "8",
 		"TEMPLATE_THEME" => "site",
-		"NEWS_COUNT" => "9",
+		"NEWS_COUNT" => "50",
 		"USE_SEARCH" => "N",
 		"USE_RSS" => "Y",
 		"USE_CATEGORIES" => "N",
@@ -42,28 +42,28 @@ $APPLICATION->SetPageProperty("H1", "Статьи");
 		"USE_PERMISSIONS" => "N",
 		"PREVIEW_TRUNCATE_LEN" => "",
 		"LIST_ACTIVE_DATE_FORMAT" => "d.m.Y",
-		"LIST_FIELD_CODE" => array(
+		"LIST_FIELD_CODE" => [
 			0 => "",
 			1 => "",
-		),
-		"LIST_PROPERTY_CODE" => array(
+		],
+		"LIST_PROPERTY_CODE" => [
 			0 => "U_DATE_PUB",
 			1 => "",
-		),
+		],
 		"HIDE_LINK_WHEN_NO_DETAIL" => "N",
 		"DISPLAY_NAME" => "Y",
 		"META_KEYWORDS" => "-",
 		"META_DESCRIPTION" => "-",
 		"BROWSER_TITLE" => "-",
 		"DETAIL_ACTIVE_DATE_FORMAT" => "d.m.Y",
-		"DETAIL_FIELD_CODE" => array(
+		"DETAIL_FIELD_CODE" => [
 			0 => "",
 			1 => "",
-		),
-		"DETAIL_PROPERTY_CODE" => array(
+		],
+		"DETAIL_PROPERTY_CODE" => [
 			0 => "U_DATE_PUB",
 			1 => "",
-		),
+		],
 		"DETAIL_DISPLAY_TOP_PAGER" => "N",
 		"DETAIL_DISPLAY_BOTTOM_PAGER" => "Y",
 		"DETAIL_PAGER_TITLE" => "Страница",
@@ -93,13 +93,15 @@ $APPLICATION->SetPageProperty("H1", "Статьи");
 		"PAGER_BASE_LINK_ENABLE" => "N",
 		"SHOW_404" => "N",
 		"MESSAGE_404" => "",
-		"SEF_URL_TEMPLATES" => array(
+		"PAGER_BASE_LINK" => "",
+		"PAGER_PARAMS_NAME" => "arrPager",
+		"SEF_URL_TEMPLATES" => [
 			"news" => "",
 			"section" => "",
 			"detail" => "#ELEMENT_CODE#/",
 			"rss" => "rss/",
 			"rss_section" => "#SECTION_ID#/rss/",
-		)
-	),
+		]
+	],
 	false
 );?><?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

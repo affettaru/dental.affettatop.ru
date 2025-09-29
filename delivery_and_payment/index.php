@@ -22,7 +22,7 @@ $APPLICATION->SetPageProperty("H1", "Доставка и оплата");
 				<?
 				$rs = CIBlockElement::GetList (
 					Array(),
-					Array("IBLOCK_ID" => 7),
+					Array("IBLOCK_ID" => 7, "ACTIVE"=>"Y"),
 					false,
 					Array (), array("PREVIEW_TEXT")
 				);
@@ -46,21 +46,11 @@ $APPLICATION->SetPageProperty("H1", "Доставка и оплата");
                         <h2 class="h2">Способы доставки</h2>
                         <div class="faq"><!-- el-->
 						<?
-				$rs = CIBlockElement::GetList (
-					Array(),
-					Array("IBLOCK_ID" => 7),
-					false,
-					Array (), array("PROPERTY_U_DELIVERYS")
-				);
-				while($ar = $rs->GetNext()) {
-					
-					$elN[]=$ar;
-				}?>
-						<?  foreach ($elN as $DELIVERY){
+				
 							  unset($elD);
 							$rsD = CIBlockElement::GetList (
 								Array(),
-								Array("IBLOCK_ID" => 10,"ID"=>$DELIVERY["PROPERTY_U_DELIVERYS_VALUE"]),
+								Array("IBLOCK_ID" => 10,"SECTION_ID"=>25, "ACTIVE"=>"Y"),
 								false,
 								Array (), array("NAME","PREVIEW_TEXT","ID")
 							);
@@ -88,7 +78,7 @@ $APPLICATION->SetPageProperty("H1", "Доставка и оплата");
                                 </div>
                             </div>
 							<?}?>
-						<?}?>
+						
                             
                         </div>
                     </div>
@@ -98,22 +88,11 @@ $APPLICATION->SetPageProperty("H1", "Доставка и оплата");
                         <h2 class="h2">Способы оплаты</h2>
                         <div class="faq">
 						<?
-				$rs = CIBlockElement::GetList (
-					Array(),
-					Array("IBLOCK_ID" => 7),
-					false,
-					Array (), array("PROPERTY_U_PAYMENTS")
-				);
-				unset($elN);
-				while($ar = $rs->GetNext()) {
-					
-					$elN[]=$ar;
-				}?>
-						<?  foreach ($elN as $DELIVERY){
+				
 							  unset($elD);
 							$rsD = CIBlockElement::GetList (
 								Array(),
-								Array("IBLOCK_ID" => 10,"ID"=>$DELIVERY["PROPERTY_U_PAYMENTS_VALUE"]),
+								Array("IBLOCK_ID" => 10,"SECTION_ID"=>26, "ACTIVE"=>"Y"),
 								false,
 								Array (), array("NAME","PREVIEW_TEXT","ID")
 							);
@@ -141,7 +120,7 @@ $APPLICATION->SetPageProperty("H1", "Доставка и оплата");
                                 </div>
                             </div>
 							<?}?>
-						<?}?>
+						
                         </div>
                     </div>
                 </div>
